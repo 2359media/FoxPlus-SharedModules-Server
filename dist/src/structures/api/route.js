@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+}
 Object.defineProperty(exports, "__esModule", { value: true });
+var pluralize_1 = __importDefault(require("pluralize"));
 /**
  * Base class to route API controllers
  */
@@ -50,13 +54,13 @@ var Route = /** @class */ (function () {
         ];
         defaults.forEach(function (mapper) {
             if (controller[mapper.action]) {
-                var path = "/" + module + (mapper.collection ? 's' : '/:id');
+                var path = '/' + (mapper.collection ? pluralize_1.default(module) : module + "/:id");
                 _this[mapper.method](path, controller[mapper.action]);
             }
         });
         if (options) {
             options.forEach(function (mapper) {
-                var path = "/" + module + (mapper.collection ? 's' : '/:id') + "/" + mapper.action;
+                var path = '/' + (mapper.collection ? pluralize_1.default(module) : module + "/:id") + ("/" + mapper.action);
                 _this[mapper.method](path, controller[mapper.action]);
             });
         }

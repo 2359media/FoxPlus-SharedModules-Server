@@ -2,12 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var controller_1 = require("./src/structures/api/controller");
 var route_1 = require("./src/structures/api/route");
-var FoxPlusShared = /** @class */ (function () {
-    function FoxPlusShared() {
+var FoxPlusStructure = /** @class */ (function () {
+    function FoxPlusStructure() {
     }
-    FoxPlusShared.Structure = {
-        Api: { Controller: controller_1.Controller, Route: route_1.Route }
-    };
-    return FoxPlusShared;
+    FoxPlusStructure.ApiController = controller_1.Controller;
+    FoxPlusStructure.ApiRoute = route_1.Route;
+    return FoxPlusStructure;
 }());
-exports.FoxPlusShared = FoxPlusShared;
+exports.FoxPlusStructure = FoxPlusStructure;

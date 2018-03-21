@@ -1,6 +1,7 @@
 import { Request, Response, Router, RequestHandler, NextFunction } from "express";
 import { Controller } from "./controller";
 import { RouteMapper } from "./routeMapper";
+import pluralize from "pluralize";
 
 /**
  * Base class to route API controllers
@@ -62,14 +63,14 @@ export abstract class Route {
 
         defaults.forEach((mapper) => {
             if (controller[mapper.action]) {
-                let path: string = `/${module}${mapper.collection ? 's' : '/:id'}`;
+                let path: string = '/' + (mapper.collection ? pluralize(module) : `${module}/:id`);
                 this[mapper.method](path, controller[mapper.action]);
             }
         })
 
         if (options) {
             options.forEach((mapper) => {
-                let path: string = `/${module}${mapper.collection ? 's' : '/:id'}/${mapper.action}`;
+                let path: string = '/' + (mapper.collection ? pluralize(module) : `${module}/:id`) + `/${mapper.action}`;
                 this[mapper.method](path, controller[mapper.action]);                
             })    
         }
