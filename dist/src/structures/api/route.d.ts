@@ -1,7 +1,14 @@
 /// <reference types="express" />
 import { Router, RequestHandler } from "express";
 import { Controller } from "./controller";
-import { RouteMapper } from "./routeMapper";
+/**
+ * Interface for mapping action and method to add to router
+ */
+export interface RouteMapper {
+    method: string;
+    action: string;
+    collection: boolean;
+}
 /**
  * Base class to route API controllers
  */
@@ -27,7 +34,7 @@ export declare abstract class Route {
      * @param router {Router} the router object
      * @constructor
      */
-    constructor(prefix: string, version: string, router: Router);
+    constructor(prefix: string, version: string | null, router: Router);
     protected abstract create(): void;
     /**
      * Add controller routes to the application router

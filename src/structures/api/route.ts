@@ -1,7 +1,15 @@
 import { Request, Response, Router, RequestHandler, NextFunction } from "express";
 import { Controller } from "./controller";
-import { RouteMapper } from "./routeMapper";
 import pluralize from "pluralize";
+
+/**
+ * Interface for mapping action and method to add to router
+ */
+export interface RouteMapper {
+    method: string;
+    action: string;
+    collection: boolean;
+}
 
 /**
  * Base class to route API controllers
@@ -33,8 +41,8 @@ export abstract class Route {
      * @param router {Router} the router object
      * @constructor
      */
-    constructor(prefix: string, version: string, router: Router) {
-        this.prefix = `${prefix}/${version}`;
+    constructor(prefix: string, version: string | null, router: Router) {
+        this.prefix = version ? `${prefix}/${version}` : prefix;
         this.router = router;
 
         this.create();

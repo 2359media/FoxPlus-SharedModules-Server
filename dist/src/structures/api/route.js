@@ -18,7 +18,7 @@ var Route = /** @class */ (function () {
      * @constructor
      */
     function Route(prefix, version, router) {
-        this.prefix = prefix + "/" + version;
+        this.prefix = version ? prefix + "/" + version : prefix;
         this.router = router;
         this.create();
     }
