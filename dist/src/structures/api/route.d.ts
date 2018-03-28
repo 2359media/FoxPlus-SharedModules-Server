@@ -1,6 +1,6 @@
 /// <reference types="express" />
-import { Router, RequestHandler } from "express";
-import { Controller } from "./controller";
+import { Router } from "express";
+import { Controller as ApiController, IRequestHandler as ApiHandler } from "./controller";
 /**
  * Interface for mapping action and method to add to router
  */
@@ -46,7 +46,7 @@ export declare abstract class Route {
      * @param controller module controller
      * @param options route mappers
      */
-    protected route(module: string, controller: Controller, options?: ReadonlyArray<RouteMapper>): void;
+    protected route(module: string, controller: ApiController, options?: ReadonlyArray<RouteMapper>): void;
     /**
      * Add GET method to application route
      *
@@ -54,7 +54,7 @@ export declare abstract class Route {
      * @param path route path
      * @param handler request handler
      */
-    protected get(path: string, handler: RequestHandler): void;
+    protected get(path: string, handler: ApiHandler): void;
     /**
      * Add POST method to application route
      *
@@ -62,7 +62,7 @@ export declare abstract class Route {
      * @param path route path
      * @param handler request handler
      */
-    protected post(path: string, handler: RequestHandler): void;
+    protected post(path: string, handler: ApiHandler): void;
     /**
      * Add PUT method to application route
      *
@@ -70,7 +70,7 @@ export declare abstract class Route {
      * @param path route path
      * @param handler request handler
      */
-    protected put(path: string, handler: RequestHandler): void;
+    protected put(path: string, handler: ApiHandler): void;
     /**
      * Add DELETE method to application route
      *
@@ -78,5 +78,5 @@ export declare abstract class Route {
      * @param path route path
      * @param handler request handler
      */
-    protected delete(path: string, handler: RequestHandler): void;
+    protected delete(path: string, handler: ApiHandler): void;
 }

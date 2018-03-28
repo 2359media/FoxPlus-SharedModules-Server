@@ -1,5 +1,5 @@
-import { Request, Response, Router, RequestHandler, NextFunction } from "express";
-import { Controller } from "./controller";
+import { Request, Response, Router, NextFunction } from "express";
+import { Controller as ApiController, IRequestHandler as ApiHandler } from "./controller";
 import pluralize from "pluralize";
 
 /**
@@ -60,7 +60,7 @@ export abstract class Route {
      * @param controller module controller
      * @param options route mappers
      */
-    protected route(module: string, controller: Controller, options?: ReadonlyArray<RouteMapper>) {
+    protected route(module: string, controller: ApiController, options?: ReadonlyArray<RouteMapper>) {
         const defaults = [
             { method: 'get', action: 'index', collection: true },
             { method: 'get', action: 'show', collection: false },
@@ -91,9 +91,10 @@ export abstract class Route {
      * @param path route path
      * @param handler request handler
      */
-    protected get(path: string, handler: RequestHandler) {
+    protected get(path: string, handler: ApiHandler) {
         this.router.get(`${this.prefix}${path}`, (req: Request, res: Response, next: NextFunction) => {
-            handler(req, res, next);
+            let response = handler(req);
+            res.status(response.status).json(response.json);
         })  
     }
 
@@ -104,9 +105,10 @@ export abstract class Route {
      * @param path route path
      * @param handler request handler
      */
-    protected post(path: string, handler: RequestHandler) {
+    protected post(path: string, handler: ApiHandler) {
         this.router.post(`${this.prefix}${path}`, (req: Request, res: Response, next: NextFunction) => {
-            handler(req, res, next);
+            let response = handler(req);
+            res.status(response.status).json(response.json);
         })  
     }
 
@@ -117,9 +119,10 @@ export abstract class Route {
      * @param path route path
      * @param handler request handler
      */
-    protected put(path: string, handler: RequestHandler) {
+    protected put(path: string, handler: ApiHandler) {
         this.router.put(`${this.prefix}${path}`, (req: Request, res: Response, next: NextFunction) => {
-            handler(req, res, next);
+            let response = handler(req);
+            res.status(response.status).json(response.json);
         })  
     }
 
@@ -130,9 +133,10 @@ export abstract class Route {
      * @param path route path
      * @param handler request handler
      */
-    protected delete(path: string, handler: RequestHandler) {
+    protected delete(path: string, handler: ApiHandler) {
         this.router.delete(`${this.prefix}${path}`, (req: Request, res: Response, next: NextFunction) => {
-            handler(req, res, next);
+            let response = handler(req);
+            res.status(response.status).json(response.json);
         })  
     }
 }

@@ -74,7 +74,8 @@ var Route = /** @class */ (function () {
      */
     Route.prototype.get = function (path, handler) {
         this.router.get("" + this.prefix + path, function (req, res, next) {
-            handler(req, res, next);
+            var response = handler(req);
+            res.status(response.status).json(response.json);
         });
     };
     /**
@@ -86,7 +87,8 @@ var Route = /** @class */ (function () {
      */
     Route.prototype.post = function (path, handler) {
         this.router.post("" + this.prefix + path, function (req, res, next) {
-            handler(req, res, next);
+            var response = handler(req);
+            res.status(response.status).json(response.json);
         });
     };
     /**
@@ -98,7 +100,8 @@ var Route = /** @class */ (function () {
      */
     Route.prototype.put = function (path, handler) {
         this.router.put("" + this.prefix + path, function (req, res, next) {
-            handler(req, res, next);
+            var response = handler(req);
+            res.status(response.status).json(response.json);
         });
     };
     /**
@@ -110,7 +113,8 @@ var Route = /** @class */ (function () {
      */
     Route.prototype.delete = function (path, handler) {
         this.router.delete("" + this.prefix + path, function (req, res, next) {
-            handler(req, res, next);
+            var response = handler(req);
+            res.status(response.status).json(response.json);
         });
     };
     return Route;
