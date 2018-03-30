@@ -4,7 +4,7 @@ import { Controller as ApiController, IRequestHandler as ApiHandler } from "./co
 /**
  * Interface for mapping action and method to add to router
  */
-export interface RouteMapper {
+export interface IRouteMapper {
     method: string;
     action: string;
     collection: boolean;
@@ -46,7 +46,7 @@ export declare abstract class Route {
      * @param controller module controller
      * @param options route mappers
      */
-    protected route(module: string, controller: ApiController, options?: ReadonlyArray<RouteMapper>): void;
+    protected route(module: string, controller: ApiController, options?: ReadonlyArray<IRouteMapper>): void;
     /**
      * Add GET method to application route
      *

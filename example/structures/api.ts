@@ -1,25 +1,27 @@
 import express from 'express';
-import { Route } from '../../src/structures/api/route';
-import { Controller } from '../../src/structures/api/controller';
+import { FoxPlusStructure } from './../../dist/index';
 
-export class TaskController extends Controller {
-    public static index(req: express.Request, res: express.Response, next: express.NextFunction): void {
-        res.json({
-            origin: req.path,
-            params: req.params,
-            query: req.query,
-            headers: req.headers
-        })
+export class TaskController extends FoxPlusStructure.Api.Controller {
+    public static index: FoxPlusStructure.Api.IRequestHandler = (req: express.Request): FoxPlusStructure.Api.IResponse => {
+        return {
+            json: {
+                origin: req.path,
+                params: req.params,
+                query: req.query,
+                headers: req.headers
+            },
+            status: FoxPlusStructure.Api.HttpStatus.Ok
+        }
     }
 }
 
-export class TaskRoute extends Route {
+export class TaskRoute extends FoxPlusStructure.Api.Route {
     constructor(prefix: string, router: express.Router) {
         super(prefix, null, router);
     }
 
     protected create() {
-        this.route('task', TaskController);
+        this.route('project/:projectId/task', TaskController);
     }
 }
 
@@ -52,7 +54,7 @@ export class Server {
         let router: express.Router;
         router = express.Router();
 
-        Route.route(router, '/:group', TaskRoute);
+        FoxPlusStructure.Api.Route.route(router, '/:group', TaskRoute);
         this.app.use('/example', router);
     }
 

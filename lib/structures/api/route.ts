@@ -5,7 +5,7 @@ import pluralize from "pluralize";
 /**
  * Interface for mapping action and method to add to router
  */
-export interface RouteMapper {
+export interface IRouteMapper {
     method: string;
     action: string;
     collection: boolean;
@@ -60,7 +60,7 @@ export abstract class Route {
      * @param controller module controller
      * @param options route mappers
      */
-    protected route(module: string, controller: ApiController, options?: ReadonlyArray<RouteMapper>) {
+    protected route(module: string, controller: ApiController, options?: ReadonlyArray<IRouteMapper>) {
         const defaults = [
             { method: 'get', action: 'index', collection: true },
             { method: 'get', action: 'show', collection: false },

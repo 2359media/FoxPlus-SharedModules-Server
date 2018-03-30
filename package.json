@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "FoxPlus Shared Modules",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "eg-structures": "tsc -w & nodemon ./dist/example/structures/api.js",
