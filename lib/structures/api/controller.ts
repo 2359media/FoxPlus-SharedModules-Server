@@ -22,7 +22,7 @@ export enum HttpStatus {
 }
 
 export interface IRequestHandler {
-    (req: Request): IResponse;
+    (req: Request): IResponse | Promise<IResponse>;
 }
 
 export interface IResponse {

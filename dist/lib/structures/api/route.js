@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 }
 Object.defineProperty(exports, "__esModule", { value: true });
+const bluebird_1 = __importDefault(require("bluebird"));
 const pluralize_1 = __importDefault(require("pluralize"));
 /**
  * Base class to route API controllers
@@ -73,8 +74,8 @@ class Route {
      */
     get(path, handler) {
         this.router.get(`${this.prefix}${path}`, (req, res, next) => {
-            let response = handler(req);
-            res.status(response.status).json(response.json);
+            bluebird_1.default.resolve(handler(req))
+                .then(response => res.status(response.status).json(response.json));
         });
     }
     /**
@@ -86,8 +87,8 @@ class Route {
      */
     post(path, handler) {
         this.router.post(`${this.prefix}${path}`, (req, res, next) => {
-            let response = handler(req);
-            res.status(response.status).json(response.json);
+            bluebird_1.default.resolve(handler(req))
+                .then(response => res.status(response.status).json(response.json));
         });
     }
     /**
@@ -99,8 +100,8 @@ class Route {
      */
     put(path, handler) {
         this.router.put(`${this.prefix}${path}`, (req, res, next) => {
-            let response = handler(req);
-            res.status(response.status).json(response.json);
+            bluebird_1.default.resolve(handler(req))
+                .then(response => res.status(response.status).json(response.json));
         });
     }
     /**
@@ -112,8 +113,8 @@ class Route {
      */
     delete(path, handler) {
         this.router.delete(`${this.prefix}${path}`, (req, res, next) => {
-            let response = handler(req);
-            res.status(response.status).json(response.json);
+            bluebird_1.default.resolve(handler(req))
+                .then(response => res.status(response.status).json(response.json));
         });
     }
 }

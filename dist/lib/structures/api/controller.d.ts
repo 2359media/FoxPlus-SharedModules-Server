@@ -21,7 +21,7 @@ export declare enum HttpStatus {
     GatewayTimeout = 504,
 }
 export interface IRequestHandler {
-    (req: Request): IResponse;
+    (req: Request): IResponse | Promise<IResponse>;
 }
 export interface IResponse {
     json: object | null;

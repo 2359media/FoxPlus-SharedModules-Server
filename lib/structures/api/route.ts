@@ -1,5 +1,6 @@
 import { Request, Response, Router, NextFunction } from "express";
 import { Controller as ApiController, IRequestHandler as ApiHandler } from "./controller";
+import Promise from "bluebird";
 import pluralize from "pluralize";
 
 /**
@@ -93,8 +94,8 @@ export abstract class Route {
      */
     protected get(path: string, handler: ApiHandler) {
         this.router.get(`${this.prefix}${path}`, (req: Request, res: Response, next: NextFunction) => {
-            let response = handler(req);
-            res.status(response.status).json(response.json);
+            Promise.resolve(handler(req))
+                .then(response => res.status(response.status).json(response.json))
         })  
     }
 
@@ -107,8 +108,8 @@ export abstract class Route {
      */
     protected post(path: string, handler: ApiHandler) {
         this.router.post(`${this.prefix}${path}`, (req: Request, res: Response, next: NextFunction) => {
-            let response = handler(req);
-            res.status(response.status).json(response.json);
+            Promise.resolve(handler(req))
+                .then(response => res.status(response.status).json(response.json))
         })  
     }
 
@@ -121,8 +122,8 @@ export abstract class Route {
      */
     protected put(path: string, handler: ApiHandler) {
         this.router.put(`${this.prefix}${path}`, (req: Request, res: Response, next: NextFunction) => {
-            let response = handler(req);
-            res.status(response.status).json(response.json);
+            Promise.resolve(handler(req))
+                .then(response => res.status(response.status).json(response.json))
         })  
     }
 
@@ -135,8 +136,8 @@ export abstract class Route {
      */
     protected delete(path: string, handler: ApiHandler) {
         this.router.delete(`${this.prefix}${path}`, (req: Request, res: Response, next: NextFunction) => {
-            let response = handler(req);
-            res.status(response.status).json(response.json);
+            Promise.resolve(handler(req))
+                .then(response => res.status(response.status).json(response.json))
         })  
     }
 }
