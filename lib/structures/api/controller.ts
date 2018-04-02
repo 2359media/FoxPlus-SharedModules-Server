@@ -1,10 +1,11 @@
 import { Request } from "express";
 import { AppError } from "./appError";
+import * as Bluebird from "bluebird";
 
 export enum HttpStatus {
     Ok = 200,
     Created = 201,
-    NoContent = 202,
+    NoContent = 204,
     BadRequest = 400,
     Unautorized = 401,
     PaymentRequired = 402,
@@ -22,7 +23,7 @@ export enum HttpStatus {
 }
 
 export interface IRequestHandler {
-    (req: Request): IResponse | Promise<IResponse>;
+    (req: Request): IResponse | Promise<IResponse> | Bluebird<IResponse>;
 }
 
 export interface IResponse {

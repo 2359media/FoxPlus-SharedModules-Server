@@ -4,7 +4,7 @@ var HttpStatus;
 (function (HttpStatus) {
     HttpStatus[HttpStatus["Ok"] = 200] = "Ok";
     HttpStatus[HttpStatus["Created"] = 201] = "Created";
-    HttpStatus[HttpStatus["NoContent"] = 202] = "NoContent";
+    HttpStatus[HttpStatus["NoContent"] = 204] = "NoContent";
     HttpStatus[HttpStatus["BadRequest"] = 400] = "BadRequest";
     HttpStatus[HttpStatus["Unautorized"] = 401] = "Unautorized";
     HttpStatus[HttpStatus["PaymentRequired"] = 402] = "PaymentRequired";

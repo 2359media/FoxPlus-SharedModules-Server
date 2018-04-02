@@ -1,6 +1,6 @@
 {
   "name": "foxplus-shared-modules",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "FoxPlus Shared Modules",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
