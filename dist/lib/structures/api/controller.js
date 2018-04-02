@@ -20,9 +20,23 @@ var HttpStatus;
     HttpStatus[HttpStatus["ServiceUnavailable"] = 503] = "ServiceUnavailable";
     HttpStatus[HttpStatus["GatewayTimeout"] = 504] = "GatewayTimeout";
 })(HttpStatus = exports.HttpStatus || (exports.HttpStatus = {}));
-var Controller = /** @class */ (function () {
-    function Controller() {
+class Response {
+    static success(status, data, expiredIn) {
+        return {
+            json: data ? data : null,
+            status,
+            expiredIn
+        };
     }
-    return Controller;
-}());
+    static error(error, expiredIn) {
+        return {
+            json: error.data(),
+            status: error.status(),
+            expiredIn
+        };
+    }
+}
+exports.Response = Response;
+class Controller {
+}
 exports.Controller = Controller;

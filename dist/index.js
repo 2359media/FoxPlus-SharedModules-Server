@@ -7,14 +7,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-var apiController = __importStar(require("./lib/structures/api/controller"));
-var apiRoute = __importStar(require("./lib/structures/api/route"));
+const apiController = __importStar(require("./lib/structures/api/controller"));
+const apiRoute = __importStar(require("./lib/structures/api/route"));
+const apiError = __importStar(require("./lib/structures/api/appError"));
 var FoxPlusStructure;
 (function (FoxPlusStructure) {
-    var Api;
-    (function (Api) {
-        Api.HttpStatus = apiController.HttpStatus;
-        Api.Controller = apiController.Controller;
-        Api.Route = apiRoute.Route;
-    })(Api = FoxPlusStructure.Api || (FoxPlusStructure.Api = {}));
+    FoxPlusStructure.ApiController = apiController.Controller;
+    FoxPlusStructure.ApiResponse = apiController.Response;
+    FoxPlusStructure.HttpStatus = apiController.HttpStatus;
+    FoxPlusStructure.ApiRoute = apiRoute.Route;
+    FoxPlusStructure.AppError = apiError.AppError;
+    FoxPlusStructure.ErrorCode = apiError.ErrorCode;
 })(FoxPlusStructure = exports.FoxPlusStructure || (exports.FoxPlusStructure = {}));

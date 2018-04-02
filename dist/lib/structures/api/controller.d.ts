@@ -1,5 +1,6 @@
 /// <reference types="express" />
 import { Request } from "express";
+import { AppError } from "./appError";
 export declare enum HttpStatus {
     Ok = 200,
     Created = 201,
@@ -26,6 +27,10 @@ export interface IResponse {
     json: object | null;
     status: HttpStatus;
     expiredIn?: number;
+}
+export declare class Response {
+    static success(status: HttpStatus.Ok | HttpStatus.Created | HttpStatus.NoContent, data?: object, expiredIn?: number): IResponse;
+    static error(error: AppError, expiredIn?: number): IResponse;
 }
 export declare class Controller {
     [action: string]: any;

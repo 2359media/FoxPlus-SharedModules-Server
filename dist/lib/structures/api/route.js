@@ -3,11 +3,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-var pluralize_1 = __importDefault(require("pluralize"));
+const pluralize_1 = __importDefault(require("pluralize"));
 /**
  * Base class to route API controllers
  */
-var Route = /** @class */ (function () {
+class Route {
+    /**
+     * Route a router with prefix following versioned route
+     *
+     * @class Route
+     * @param router application router
+     * @param prefix prefix to the path (for example, namespace)
+     * @param Route versioned route
+     */
+    static route(router, prefix, Route) {
+        new Route(prefix, router);
+    }
     /**
      * Constructor
      *
@@ -17,22 +28,11 @@ var Route = /** @class */ (function () {
      * @param router {Router} the router object
      * @constructor
      */
-    function Route(prefix, version, router) {
-        this.prefix = version ? prefix + "/" + version : prefix;
+    constructor(prefix, version, router) {
+        this.prefix = version ? `${prefix}/${version}` : prefix;
         this.router = router;
         this.create();
     }
-    /**
-     * Route a router with prefix following versioned route
-     *
-     * @class Route
-     * @param router application router
-     * @param prefix prefix to the path (for example, namespace)
-     * @param Route versioned route
-     */
-    Route.route = function (router, prefix, Route) {
-        new Route(prefix, router);
-    };
     /**
      * Add controller routes to the application router
      * Action index, show, create, update and destroy are added by default
@@ -43,28 +43,27 @@ var Route = /** @class */ (function () {
      * @param controller module controller
      * @param options route mappers
      */
-    Route.prototype.route = function (module, controller, options) {
-        var _this = this;
-        var defaults = [
+    route(module, controller, options) {
+        const defaults = [
             { method: 'get', action: 'index', collection: true },
             { method: 'get', action: 'show', collection: false },
             { method: 'post', action: 'create', collection: true },
             { method: 'put', action: 'update', collection: false },
             { method: 'delete', action: 'destroy', collection: false }
         ];
-        defaults.forEach(function (mapper) {
+        defaults.forEach((mapper) => {
             if (controller[mapper.action]) {
-                var path = '/' + (mapper.collection ? pluralize_1.default(module) : module + "/:id");
-                _this[mapper.method](path, controller[mapper.action]);
+                let path = '/' + (mapper.collection ? pluralize_1.default(module) : `${module}/:id`);
+                this[mapper.method](path, controller[mapper.action]);
             }
         });
         if (options) {
-            options.forEach(function (mapper) {
-                var path = '/' + (mapper.collection ? pluralize_1.default(module) : module + "/:id") + ("/" + mapper.action);
-                _this[mapper.method](path, controller[mapper.action]);
+            options.forEach((mapper) => {
+                let path = '/' + (mapper.collection ? pluralize_1.default(module) : `${module}/:id`) + `/${mapper.action}`;
+                this[mapper.method](path, controller[mapper.action]);
             });
         }
-    };
+    }
     /**
      * Add GET method to application route
      *
@@ -72,12 +71,12 @@ var Route = /** @class */ (function () {
      * @param path route path
      * @param handler request handler
      */
-    Route.prototype.get = function (path, handler) {
-        this.router.get("" + this.prefix + path, function (req, res, next) {
-            var response = handler(req);
+    get(path, handler) {
+        this.router.get(`${this.prefix}${path}`, (req, res, next) => {
+            let response = handler(req);
             res.status(response.status).json(response.json);
         });
-    };
+    }
     /**
      * Add POST method to application route
      *
@@ -85,12 +84,12 @@ var Route = /** @class */ (function () {
      * @param path route path
      * @param handler request handler
      */
-    Route.prototype.post = function (path, handler) {
-        this.router.post("" + this.prefix + path, function (req, res, next) {
-            var response = handler(req);
+    post(path, handler) {
+        this.router.post(`${this.prefix}${path}`, (req, res, next) => {
+            let response = handler(req);
             res.status(response.status).json(response.json);
         });
-    };
+    }
     /**
      * Add PUT method to application route
      *
@@ -98,12 +97,12 @@ var Route = /** @class */ (function () {
      * @param path route path
      * @param handler request handler
      */
-    Route.prototype.put = function (path, handler) {
-        this.router.put("" + this.prefix + path, function (req, res, next) {
-            var response = handler(req);
+    put(path, handler) {
+        this.router.put(`${this.prefix}${path}`, (req, res, next) => {
+            let response = handler(req);
             res.status(response.status).json(response.json);
         });
-    };
+    }
     /**
      * Add DELETE method to application route
      *
@@ -111,12 +110,11 @@ var Route = /** @class */ (function () {
      * @param path route path
      * @param handler request handler
      */
-    Route.prototype.delete = function (path, handler) {
-        this.router.delete("" + this.prefix + path, function (req, res, next) {
-            var response = handler(req);
+    delete(path, handler) {
+        this.router.delete(`${this.prefix}${path}`, (req, res, next) => {
+            let response = handler(req);
             res.status(response.status).json(response.json);
         });
-    };
-    return Route;
-}());
+    }
+}
 exports.Route = Route;

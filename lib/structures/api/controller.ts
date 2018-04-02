@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { AppError } from "./appError";
 
 export enum HttpStatus {
     Ok = 200,
@@ -28,6 +29,31 @@ export interface IResponse {
     json: object | null,
     status: HttpStatus,
     expiredIn?: number
+}
+
+export class Response {
+    public static success (
+        status: HttpStatus.Ok | HttpStatus.Created | HttpStatus.NoContent,
+        data?: object,
+        expiredIn?: number
+    ): IResponse {
+        return {
+            json: data ? data : null,
+            status,
+            expiredIn
+        }
+    }
+
+    public static error (
+        error: AppError,
+        expiredIn?: number
+    ): IResponse {
+        return {
+            json: error.data(),
+            status: error.status(),
+            expiredIn
+        }
+    }
 }
 
 export class Controller {
