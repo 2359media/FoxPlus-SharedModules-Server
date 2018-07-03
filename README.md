@@ -1,1 +1,1 @@
-# FoxPlus-SkeletonModule-Server
+# FoxPlus-SharedModule-Server

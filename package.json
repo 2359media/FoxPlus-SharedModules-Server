@@ -1,0 +1,31 @@
+{
+  "name": "foxplus-shared-modules",
+  "version": "0.1.0",
+  "description": "FoxPlus Shared Modules",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2359media/FoxPlus-SharedModules-Server.git"
+  },
+  "author": "samrith.ly@2359media.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2359media/FoxPlus-SharedModules-Server/issues"
+  },
+  "homepage": "https://github.com/2359media/FoxPlus-SharedModules-Server#readme",
+  "dependencies": {
+    "ajv": "^6.5.2",
+    "express": "^4.16.3",
+    "express-http-context": "^1.0.3",
+    "install": "^0.12.1",
+    "newrelic": "^4.2.1",
+    "pluralize": "^7.0.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "dotenv": "^6.0.0"
+  }
+}
