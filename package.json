@@ -18,12 +18,14 @@
   "homepage": "https://github.com/2359media/FoxPlus-SharedModules-Server#readme",
   "dependencies": {
     "ajv": "^6.5.2",
+    "continuation-local-storage": "^3.2.1",
     "express": "^4.16.3",
     "express-http-context": "^1.0.3",
-    "install": "^0.12.1",
     "newrelic": "^4.2.1",
     "pluralize": "^7.0.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0"
   },
   "devDependencies": {
     "dotenv": "^6.0.0"
