@@ -1,7 +1,6 @@
 const Ajv = require('ajv');
-const { inspect } = require('./../utils');
-const AppError = require('./../appError/appError');
-const ErrorCode = require('./../appError/errorCode');
+const { inspect } = require('./../../utils');
+const { AppError, ErrorCode } = require('./../../appError');
 
 class Validator {
     /**

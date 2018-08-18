@@ -10,10 +10,8 @@ const httpContext = require('express-http-context');
 const bodyParser = require('body-parser');
 const { requestLogStart, requestLogEnd } = require('./middlewares/logger');
 const captureHeaders = require('./middlewares/captureHeaders');
-const createErrorCodeRoute = require('./appError/createRoute');
-
-const { route } = require('./router');
-const { log } = require('./utils');
+const createErrorRoute = require('./createErrorRoute');
+const { log } = require('./../utils');
 
 /**
  * create server
@@ -36,11 +34,12 @@ module.exports = (name, routers, options) => {
     app.use(requestLogEnd);
 
     const router = express.Router();
-    for (const _route of routers) {
-        route(router, '', _route);
+    for (const _Route of routers) {
+        (new _Route('', router)).create();
     }
     if (options.errorCode) {
-        route(router, '', createErrorCodeRoute(options.errorCode));
+        const ErrorRoute = createErrorRoute(options.errorCode);
+        (new ErrorRoute('', router)).create();
     }
     app.use(`/${name.toLowerCase()}`, router);
     app.use('/', (req, res) => {

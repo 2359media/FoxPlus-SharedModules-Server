@@ -1,6 +1,5 @@
-const { Route } = require('./../router');
-const AppError = require('./appError');
-const HttpStatus = require('./httpStatus');
+const Route = require('./router');
+const { AppError, HttpStatus } = require('./../appError');
 
 module.exports = (errorCodes) => {
     class ErrorCodeController {
@@ -19,6 +18,7 @@ module.exports = (errorCodes) => {
             res.status(HttpStatus.Ok).json(errors);
         }
     }
+
     class ErrorCodeRoute extends Route {
         constructor(prefix, router) {
             super(prefix, '', router);

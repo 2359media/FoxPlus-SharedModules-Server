@@ -1,11 +1,12 @@
 const pluralize = require('pluralize');
 const Validator = require('./middlewares/validator');
-const AppError = require('./appError/appError');
-const { log, inspect } = require('./utils');
+const { AppError } = require('./../appError');
+const { log, inspect } = require('./../utils');
 
 class Route {
     constructor(prefix, version, router) {
         this._prefix = version ? `${prefix}/${version}` : prefix;
+        this._version = version || null;
         this._router = router;
     }
 
@@ -71,12 +72,13 @@ class Route {
         this._router[method](
             `${this._prefix}${path}`,
             middles,
-            this._routeHandle.bind(null, this._prefix, controller, action)
+            this._routeHandle.bind(null, this._version, controller, action)
         );
     }
 
-    async _routeHandle(prefix, controller, action, req, res) {
-        log(`PROCESS ${prefix}/${controller.name}#${action} ${inspect({
+    async _routeHandle(version, controller, action, req, res) {
+        log(`PROCESS ${controller.name}#${action} ${inspect({
+            version,
             params: req.params,
             query: req.query,
             body: req.body
@@ -91,13 +93,4 @@ class Route {
     }
 }
 
-module.exports = {
-    Route,
-    /**
-     * Route Express Router based on Route
-     * @param {Router} router express router
-     * @param {string} prefix
-     * @param {Route} ChildRoute
-     */
-    route: (router, prefix, ChildRoute) => (new ChildRoute(prefix, router)).create()
-};
+module.exports = Route;
