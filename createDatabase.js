@@ -5,11 +5,15 @@ const { createNamespace } = require('continuation-local-storage');
 const { log } = require('./utils');
 
 /**
+ * @typedef { function({[x: string]: object}, string): void } Hook
+ */
+/**
  * create sequelize db
  * @param {string} clsName CLS namespace name
  * @param {string} dbUri dialect://username:password(at)host:port/database
+ * @param {Array<Hook>} modelHooks hooks
  */
-module.exports = (clsName, dbUri) => {
+module.exports = (clsName, dbUri, modelHooks) => {
     const sequelizeNS = createNamespace(`sequel-cls-${clsName}`);
     Sequelize.useCLS(sequelizeNS);
 
@@ -27,6 +31,10 @@ module.exports = (clsName, dbUri) => {
     for (const modelName of Object.keys(db)) {
         if (db[modelName].associate) {
             db[modelName].associate(db);
+        }
+
+        for (const hook of modelHooks) {
+            hook(db, modelName);
         }
     }
 
