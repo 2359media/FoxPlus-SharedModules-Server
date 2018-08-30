@@ -23,22 +23,23 @@ class Route {
      * @prop {boolean} collection
      */
     /**
+     * @class Controller
+     */
+    /**
      * @param {Object} options
      * @param {string} options.module route name (singular)
-     * @param {Controller} options.constroller route handlers
+     * @param {Controller} options.controller route handlers
      * @param {Validator} options.schemas router handlers' schema
      * @param {Array<Mapper>} options.mappers route mapper options
      * @param {Array<Middleware>} options.middlewares route middlewares
      */
-    route(options) {
-        const {
-            module: module = '',
-            controller: controller = {},
-            schemas: schemas = {},
-            mappers: mappers = [],
-            middlewares: middlewares = []
-        } = options;
-
+    route({
+        module = '',
+        controller = {},
+        schemas = {},
+        mappers = [],
+        middlewares = []
+    }) {
         const defaults = [
             { method: 'get', action: 'index', collection: true },
             { method: 'post', action: 'create', collection: true },
