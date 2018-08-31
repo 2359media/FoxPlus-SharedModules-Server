@@ -22,6 +22,10 @@ class ViewRoute extends Route {
     set() {
         this._app.set.apply(this._app, arguments);
     }
+
+    _fetchMiddlewares(middlewares, action) {
+        return middlewares.map(m => m.any || m[action]).filter(m => !!m);
+    }
 }
 
 module.exports = ViewRoute;

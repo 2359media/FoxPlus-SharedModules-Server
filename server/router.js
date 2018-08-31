@@ -60,7 +60,7 @@ class Route {
         for (const mapper of defaults) {
             if (controller[mapper.action]) {
                 const path = (mapper.collection ? `/${pluralize(module)}` : `/${module}/:id`);
-                const middles = middlewares.map(m => m[mapper.action]).filter(m => !!m);
+                const middles = this._fetchMiddlewares(middlewares, mapper.action);
                 this._routeSingle(mapper.method, path, middles, controller, mapper.action);
             }
         }
@@ -71,7 +71,7 @@ class Route {
                 mapper.path += `/${mapper.action}`;
             }
 
-            const middles = middlewares.map(m => m[mapper.action]).filter(m => !!m);
+            const middles = this._fetchMiddlewares(middlewares, mapper.action);
             this._routeSingle(mapper.method, mapper.path, middles, controller, mapper.action);
         }
     }
@@ -82,6 +82,10 @@ class Route {
             middles,
             this._routeHandle.bind(null, this._version, controller, action)
         );
+    }
+
+    _fetchMiddlewares(middlewares, action) {
+        return middlewares.map(m => m[action]).filter(m => !!m);
     }
 
     async _routeHandle(version, controller, action, req, res) {
