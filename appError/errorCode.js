@@ -25,8 +25,8 @@ const ErrorCode = {
 const initializeErrors = (errorCode, prefix) => {
     for (const i of Object.keys(errorCode)) {
         for (const j of Object.keys(errorCode[i])) {
-            ErrorCode[i][j].message = `${i} ${j}`;
-            ErrorCode[i][j].prefix = prefix;
+            errorCode[i][j].message = `${i} ${j}`;
+            errorCode[i][j].prefix = prefix;
         }
     }
 };

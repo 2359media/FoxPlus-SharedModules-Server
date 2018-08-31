@@ -17,13 +17,18 @@ class Route {
     create() {}
 
     /**
+     * Use the given middleware function, with optional path, defaulting to "/"
+     */
+    use(...args) {
+        this._router.use.apply(this._router, ...args);
+    }
+
+    /**
      * @typedef Mapper
      * @prop {string} method
      * @prop {string} action
      * @prop {boolean} collection
-     */
-    /**
-     * @class Controller
+     * @prop {string} path
      */
     /**
      * @param {Object} options
@@ -42,7 +47,7 @@ class Route {
     }) {
         const defaults = [
             { method: 'get', action: 'index', collection: true },
-            { method: 'post', action: 'create', collection: true },
+            { method: 'put', action: 'create', collection: true },
             { method: 'patch', action: 'bulk', collection: true },
             { method: 'delete', action: 'clear', collection: true },
             { method: 'get', action: 'show', collection: false },
@@ -61,11 +66,13 @@ class Route {
         }
 
         for (const mapper of mappers) {
-            let path = (mapper.collection ? `/${pluralize(module)}` : `/${module}/:id`);
-            path += `/${mapper.action}`;
+            if (!mapper.path) {
+                mapper.path = mapper.collection ? `/${pluralize(module)}` : `/${module}/:id`;
+                mapper.path += `/${mapper.action}`;
+            }
 
             const middles = middlewares.map(m => m[mapper.action]).filter(m => !!m);
-            this._routeSingle(mapper.method, path, middles, controller, mapper.action);
+            this._routeSingle(mapper.method, mapper.path, middles, controller, mapper.action);
         }
     }
 

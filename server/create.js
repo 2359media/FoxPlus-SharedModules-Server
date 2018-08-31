@@ -15,12 +15,18 @@ const { log } = require('./../utils');
 
 /**
  * create server
- * @param {string} name service name
- * @param {Array<route>} routers versions of router
- * @param {object} options other options
+ * @param {object} options
+ * @param {string} options.name service name
+ * @param {Array<route>} options.routes versions of api route
+ * @param {Array<viewRoute>} options.viewRoutes cms route
  * @param {ErrorCode} options.errorCode
  */
-module.exports = (name, routers, options) => {
+module.exports = ({
+    name,
+    routes,
+    viewRoutes,
+    ErrorCode
+}) => {
     const app = express();
     app.disable('x-powered-by');
 
@@ -34,17 +40,30 @@ module.exports = (name, routers, options) => {
     app.use(requestLogEnd);
 
     const router = express.Router();
-    for (const _Route of routers) {
-        (new _Route('', router)).create();
+    if (routes instanceof Array) {
+        for (const _Route of routes) {
+            (new _Route('', router)).create();
+        }
     }
-    if (options.errorCode) {
-        const ErrorRoute = createErrorRoute(options.errorCode);
+
+    if (ErrorCode && process.env.NODE_ENV === 'development') {
+        const ErrorRoute = createErrorRoute(ErrorCode);
         (new ErrorRoute('', router)).create();
     }
     app.use(`/${name.toLowerCase()}`, router);
-    app.use('/', (req, res) => {
-        res.send(`${name} Service Ready`);
-    });
+
+    if (viewRoutes instanceof Array) {
+        const viewRouter = express.Router();
+        for (const _Route of viewRoutes) {
+            (new _Route('', viewRouter, app)).create();
+        }
+        app.use('/', viewRouter);
+    } else {
+        app.use('/', (req, res) => {
+            res.send(`${name} Service Ready`);
+        });
+    }
+
 
     app.set('port', (parseInt(process.env.PORT || '', 10) || 3000));
     const server = app.listen(app.get('port'), () => {
