@@ -1,6 +1,6 @@
 {
   "name": "foxplus-core",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "FoxPlus Shared Modules",
   "main": "index.js",
   "scripts": {
