@@ -47,7 +47,7 @@ class Route {
     }) {
         const defaults = [
             { method: 'get', action: 'index', collection: true },
-            { method: 'put', action: 'create', collection: true },
+            { method: 'post', action: 'create', collection: true },
             { method: 'patch', action: 'bulk', collection: true },
             { method: 'delete', action: 'clear', collection: true },
             { method: 'get', action: 'show', collection: false },

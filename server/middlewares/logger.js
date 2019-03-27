@@ -10,11 +10,11 @@ module.exports = {
      */
     requestLogStart: morgan(
         '[:req[requestLogId]] START :method :url :req[country] :req[platform]',
-        { immediate: true }
+        { immediate: true, skip: req => (req.url === '/' && req.method === 'GET') }
     ),
 
     /**
      * Request Logger Middleware -- Log at End of Request
      */
-    requestLogEnd: morgan(logEndFormat)
+    requestLogEnd: morgan(logEndFormat, { skip: req => (req.url === '/' && req.method === 'GET') })
 };
