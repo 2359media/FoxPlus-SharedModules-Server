@@ -37,6 +37,7 @@ module.exports = (options) => {
     app.use(requestLogStart);
     app.use(requestLogEnd);
 
+    let viewRouterSet = false;
     const opts = options instanceof Array ? options : [options];
     for (const option of opts) {
         const {
@@ -65,16 +66,20 @@ module.exports = (options) => {
                 (new _Route('', viewRouter, app)).create();
             }
             app.use('/', viewRouter);
-        } else {
-            app.use('/', (req, res) => {
-                res.send(`${name} Service Ready`);
-            });
+            viewRouterSet = true;
         }
+    }
+
+    const [{ name }] = opts;
+    if (!viewRouterSet) {
+        app.use('/', (req, res) => {
+            res.send(`${name} Service Ready`);
+        });
     }
 
     app.set('port', (parseInt(process.env.PORT || '', 10) || 3000));
     const server = app.listen(app.get('port'), () => {
-        log(`${opts[0].name} Service running on port: ${app.get('port')}`);
+        log(`${name} Service running on port: ${app.get('port')}`);
     });
 
     return { app, server };
