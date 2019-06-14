@@ -14,19 +14,17 @@ const createErrorRoute = require('./createErrorRoute');
 const { log } = require('./../utils');
 
 /**
- * create server
- * @param {object} options
- * @param {string} options.name service name
- * @param {Array<route>} options.routes versions of api route
- * @param {Array<viewRoute>} options.viewRoutes cms route
- * @param {ErrorCode} options.errorCode
+ * @typedef Option
+ * @prop {string} options.name service name
+ * @prop {Array<route>} options.routes versions of api route
+ * @prop {Array<viewRoute>} options.viewRoutes cms route
+ * @prop {ErrorCode} options.errorCode
  */
-module.exports = ({
-    name,
-    routes,
-    viewRoutes,
-    ErrorCode
-}) => {
+/**
+ * create servers
+ * @param {Array<Option>} options
+ */
+module.exports = (options) => {
     const app = express();
     app.disable('x-powered-by');
 
@@ -39,35 +37,44 @@ module.exports = ({
     app.use(requestLogStart);
     app.use(requestLogEnd);
 
-    const router = express.Router();
-    if (routes instanceof Array) {
-        for (const _Route of routes) {
-            (new _Route('', router)).create();
+    const opts = options instanceof Array ? options : [options];
+    for (const option of opts) {
+        const {
+            name,
+            routes,
+            viewRoutes,
+            ErrorCode
+        } = option;
+
+        const router = express.Router();
+        if (routes instanceof Array) {
+            for (const _Route of routes) {
+                (new _Route('', router)).create();
+            }
+        }
+
+        if (ErrorCode && process.env.NODE_ENV === 'development') {
+            const ErrorRoute = createErrorRoute(ErrorCode);
+            (new ErrorRoute('', router)).create();
+        }
+        app.use(`/${name.toLowerCase()}`, router);
+
+        if (viewRoutes instanceof Array) {
+            const viewRouter = express.Router();
+            for (const _Route of viewRoutes) {
+                (new _Route('', viewRouter, app)).create();
+            }
+            app.use('/', viewRouter);
+        } else {
+            app.use('/', (req, res) => {
+                res.send(`${name} Service Ready`);
+            });
         }
     }
-
-    if (ErrorCode && process.env.NODE_ENV === 'development') {
-        const ErrorRoute = createErrorRoute(ErrorCode);
-        (new ErrorRoute('', router)).create();
-    }
-    app.use(`/${name.toLowerCase()}`, router);
-
-    if (viewRoutes instanceof Array) {
-        const viewRouter = express.Router();
-        for (const _Route of viewRoutes) {
-            (new _Route('', viewRouter, app)).create();
-        }
-        app.use('/', viewRouter);
-    } else {
-        app.use('/', (req, res) => {
-            res.send(`${name} Service Ready`);
-        });
-    }
-
 
     app.set('port', (parseInt(process.env.PORT || '', 10) || 3000));
     const server = app.listen(app.get('port'), () => {
-        log(`${name} Service running on port: ${app.get('port')}`);
+        log(`${opts[0].name} Service running on port: ${app.get('port')}`);
     });
 
     return { app, server };
