@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/2359media/FoxPlus-SharedModules-Server#readme",
   "dependencies": {
-    "ajv": "^6.5.3",
+    "ajv": "^6.12.3",
     "body-parser": "^1.18.3",
     "continuation-local-storage": "^3.2.1",
     "cors": "^2.8.4",
