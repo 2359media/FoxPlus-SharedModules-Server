@@ -28,7 +28,7 @@
     "pluralize": "^7.0.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "sequelize": "^4.38.0",
+    "sequelize": "^6.28.2",
     "sequelize-cli": "^4.1.1",
     "uuid": "^3.3.2"
   },
